@@ -1,6 +1,15 @@
-const express = require('express');
-const app = express();
+import eps from "express";
+import setupSwagger from './config/swagger.js';
+export const app = eps();
+import { taskRouter } from "./modules/tasks/task.routes.js";
+import { errorHandler } from "./middlewares/error.middleware.js";
 
-app.use(express.json());
+app.use(eps.json());
 
-module.exports = app;
+app.use('/tasks', taskRouter);
+
+// Swagger documentation setup
+setupSwagger(app);
+
+// Error handling middleware
+app.use(errorHandler);

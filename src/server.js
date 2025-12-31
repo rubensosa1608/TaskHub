@@ -1,6 +1,6 @@
-const app = require('./app');
-const { port } = require('./config/env')
+import { app } from './app.js'
+import { env } from './config/env.js'
 
-app.listen(port, () => {
-    console.log('Server running on port', port);
+app.listen(env.PORT, () => {
+    console.log('Server running on port', env.PORT);
 })

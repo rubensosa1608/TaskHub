@@ -1,8 +1,15 @@
-import AuthService from './auth.service.js';
+
 import {loginSchema, registerSchema} from './auth.validators.js';
 import { signToken, verifyToken } from '../../utils/jwt.js';
 
 export class AuthController {
+
+    constructor(AuthService) {
+        this.AuthService = AuthService;
+        
+        this.register = this.register.bind(this);
+        this.login = this.login.bind(this);
+    }
 
     async register(req, res, next) {
         try {

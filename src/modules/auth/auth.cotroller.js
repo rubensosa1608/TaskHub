@@ -12,46 +12,55 @@ export class AuthController {
     }
 
     async register(req, res, next) {
-        try {
-            const {error, value} = registerSchema.validate(req.body);
+  try {
+    const result = registerSchema.safeParse(req.body);
 
-            if (error) {
-                const er = new Error('Los datos de registro no son válidos reviselos e intente de nuevo');
-                er.status = 400;
-                throw er;
-            }
-
-            const { email, password } = value;
-            const existingUser = await AuthService.findUserByEmail(email);
-
-            if (existingUser) {
-                const er = new Error('El correo electrónico ya está en uso');
-                er.status = 409;
-                throw er;
-            }
-
-            const newUser = await AuthService.createUser(email, password);
-            res.status(201).json({ message: 'Usuario registrado exitosamente', user: newUser });
-            
-        } catch (err) {
-            next(err);
-        }
+    if (!result.success) {
+      const er = new Error(
+        result.error.errors.map(e => e.message).join(', ')
+      );
+      er.status = 400;
+      throw er;
     }
+
+    const { email, password } = result.data;
+
+    const existingUser = await this.AuthService.findUserByEmail(email);
+    if (existingUser) {
+      const er = new Error('El correo electrónico ya está en uso');
+      er.status = 409;
+      throw er;
+    }
+
+    const newUser = await this.AuthService.createUser(email, password);
+
+    res.status(201).json({
+      message: 'Usuario registrado exitosamente',
+      user: newUser
+    });
+
+  } catch (err) {
+    next(err);
+  }
+}
+
 
     async login(req, res, next) {
         try {
-            const {error, value} = loginSchema.validate(req.body);
+            const result = loginSchema.safeParse(req.body);
             
-            if (error) {
-                const er = new Error('Los datos de inicio de sesión no son válidos reviselos e intente de nuevo');
-                er.status = 400;
-                throw er;
-            }
+            if (!result.success) {
+              const er = new Error(
+              result.error.errors.map(e => e.message).join(', ')
+            );
+            er.status = 400;
+            throw er;
+          }
 
-            const { email, password } = value;
-            const user = await AuthService.findUserByEmail(email);
+            const { email, password } = result.data;
+            const user = await this.AuthService.findUserByEmail(email);
 
-            const passwordsMatch = await AuthService.comparePasswords(password, user.password);
+            const passwordsMatch = await this.AuthService.comparePasswords(password, user.password);
             const token = signToken(user);
 
             // Mejoras de seguridad para la cookie del token

@@ -10,7 +10,7 @@ const options = {
       description: 'API para gestionar notas con autenticación de usuarios',
     },
     servers: [
-      { url: 'http://localhost:3000', description: 'Servidor local' },
+      { url: 'http://localhost:8000', description: 'Servidor local' },
     ],
     components: {
       securitySchemes: {

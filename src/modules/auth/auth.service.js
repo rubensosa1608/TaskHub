@@ -1,5 +1,5 @@
-import { prisma } from './lib/prisma.js';
-import { hashPassword, comparePassword } from '../utils/bcrypt.js';
+import { prisma } from '../../lib/prisma.js';
+import { hashPassword, comparePassword } from '../../utils/bcrypt.js';
 
 export class AuthService {
 

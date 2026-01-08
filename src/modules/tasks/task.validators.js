@@ -15,5 +15,4 @@ export const updateTaskSchema = z.object({
   description: z.string().optional(),
   priority: z.string(),
   limit_date: z.date().optional(),
-  user_id: z.int()
 });

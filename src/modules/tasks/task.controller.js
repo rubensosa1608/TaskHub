@@ -13,9 +13,8 @@ export class TaskController {
         this.deleteTask = this.deleteTask.bind(this);
         this.getTaskById = this.getTaskById.bind(this);
     }
-
         
-    async createTask (req, res) {
+    async createTask (req, res, next) {
 
         try {
             const result = taskValidator.createTaskSchema.safeParse(req.body);
@@ -50,12 +49,12 @@ export class TaskController {
 
     }
 
-    async getAllTasks (req, res) {
+    async getAllTasks (req, res, next) {
 
         try {
-            const idUser = req.params.idUser;
+            const userId = parseInt(req.params.idUser, 10); // convierte "2" -> 2
 
-            const tasks = await this.TaskService.getAllTasks( idUser );
+            const tasks = await this.TaskService.getAllTasks( userId );
 
             res.status(200).json({
                 message: 'Tareas obtenidas exitosamente',
@@ -67,15 +66,76 @@ export class TaskController {
         }
 
     }
+    
+    async getTaskById (req, res, next) {
 
-    async updateTask (req, res ) {
+        try {
+            const idTask = parseInt(req.params.id, 10);
+
+            const task = await this.TaskService.getTaskById( idTask );
+
+            if (!task) {
+                const er = new Error('Tarea no encontrada');
+                er.status = 404;
+                throw er;
+            }
+
+            res.status(200).json({
+                message: 'Tarea obtenida exitosamente',
+                task: task
+            });
+
+        } catch (err) {
+            next(err);
+        }
+    
+    }
+
+    async updateTask (req, res, next) {
+
+        try {
+
+            const idTask = parseInt(req.params.id, 10);
+            const result = taskValidator.updateTaskSchema.safeParse(req.body);
+
+            if (!result.success) {
+                const er = new Error(
+                    result.error.errors.map(e => e.message).join(', ')
+                );
+                er.status = 400;
+                throw er;
+            }
+
+            const updates = result.data;
+
+            const updatedTask = await this.TaskService.updateTask( idTask, updates );
+
+            res.status(200).json({
+                message: 'Tarea actualizada exitosamente',
+                task: updatedTask
+            });
+            
+        } catch (err) {
+            next (err);
+        }
 
     }
-    async  deleteTask (req, res) {
 
-    }
+    async  deleteTask (req, res, next) {
 
-    async getTaskById (req, res) {
+        try {
+            
+            const idTask = parseInt(req.params.id, 10);
+
+            await this.TaskService.deleteTask( idTask );
+
+            res.status(200).json({
+                message: 'Tarea eliminanda exitosamente'
+            })
+
+        } catch (err) {
+            next(err);
+        }
 
     }
         

@@ -11,26 +11,25 @@ export class AuthController {
         this.login = this.login.bind(this);
     }
 
-    async register(req, res, next) {
-  try {
-    const result = registerSchema.safeParse(req.body);
+  async register(req, res, next) {
+    try {
+      const result = registerSchema.safeParse(req.body);
 
-    if (!result.success) {
-      const er = new Error(
-        result.error.errors.map(e => e.message).join(', ')
-      );
+     if (!result.success) {
+      const errors = result.error?.errors?.map(e => e.message) || ['Error de validación'];
+      const er = new Error(errors.join(', '));
       er.status = 400;
       throw er;
-    }
+      }
 
-    const { email, password } = result.data;
+      const { email, password } = result.data;
 
-    const existingUser = await this.AuthService.findUserByEmail(email);
-    if (existingUser) {
-      const er = new Error('El correo electrónico ya está en uso');
-      er.status = 409;
-      throw er;
-    }
+      const existingUser = await this.AuthService.findUserByEmail(email);
+      if (existingUser) {
+        const er = new Error('El correo electrónico ya está en uso');
+        er.status = 409;
+        throw er;
+      }
 
     const newUser = await this.AuthService.createUser(email, password);
 
@@ -49,13 +48,13 @@ export class AuthController {
         try {
             const result = loginSchema.safeParse(req.body);
             
-            if (!result.success) {
-              const er = new Error(
-              result.error.errors.map(e => e.message).join(', ')
-            );
-            er.status = 400;
-            throw er;
+          if (!result.success) {
+          const errors = result.error?.errors?.map(e => e.message) || ['Error de inicio de sesión'];
+          const er = new Error(errors.join(', '));
+          er.status = 400;
+          throw er;
           }
+
 
             const { email, password } = result.data;
             const user = await this.AuthService.findUserByEmail(email);

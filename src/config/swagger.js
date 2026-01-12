@@ -21,9 +21,15 @@ const options = {
         },
       },
     },
+    security: [
+      {
+        bearerAuth: []
+      }
+    ],
   },
-  apis: ['./src/modules/**/*.js'], // Aquí es donde documentas tus endpoints con JSDoc
+  apis: ['./src/modules/**/*.js'],
 };
+
 
 const swaggerSpec = swaggerJsdoc(options);
 

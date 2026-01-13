@@ -46,7 +46,7 @@ http://localhost:PUERTO
 
 La documentación completa de los endpoints está disponible mediante **Swagger**:
 
-👉 [http://localhost:3000/api-docs](http://localhost:3000/api-docs)
+👉 [http://localhost:PUERTO/api-docs]
 
 Desde Swagger puedes:
 

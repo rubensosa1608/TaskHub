@@ -44,7 +44,7 @@ export class AuthController {
 }
 
 
-    async login(req, res, next) {
+  async login(req, res, next) {
         try {
             const result = loginSchema.safeParse(req.body);
             

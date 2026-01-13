@@ -1,7 +1,7 @@
 import { verifyToken } from '../utils/jwt.js';
 
 export function authMiddleware(req, res, next) {
-  // 🚀 Ignorar preflight requests
+  
   if (req.method === 'OPTIONS') return next();
 
   try {

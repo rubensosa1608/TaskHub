@@ -84,9 +84,9 @@ async updateTask ( idTask, data ) {
 
 async deleteTask ( idTask ) {
 
-    await prisma.tasks.delete({
+    await prisma.tasks.deleteMany({
         where: {
-            id: idTask
+            id: idTask,
         }
     });
 

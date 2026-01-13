@@ -46,7 +46,6 @@ export class TaskController {
             next(err);
         }
 
-
     }
 
     async getAllTasks (req, res, next) {
@@ -55,6 +54,12 @@ export class TaskController {
             const userId = parseInt(req.params.idUser, 10); // convierte "2" -> 2
 
             const tasks = await this.TaskService.getAllTasks( userId );
+
+            if (tasks.length === 0) {
+                const er = new Error('No se encontraron tareas para este usuario');
+                er.status = 404;
+                throw er;
+            }
 
             res.status(200).json({
                 message: 'Tareas obtenidas exitosamente',
@@ -128,6 +133,12 @@ export class TaskController {
             const idTask = parseInt(req.params.id, 10);
 
             await this.TaskService.deleteTask( idTask );
+
+            if (!idTask) {
+                const er = new Error('Tarea no encontrada');
+                er.status = 404;
+                throw er;
+            }
 
             res.status(200).json({
                 message: 'Tarea eliminanda exitosamente'

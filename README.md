@@ -61,7 +61,8 @@ Desde Swagger puedes:
 - ✅ CRUD de tareas
 - ✅ Validaciones con Zod
 - ✅ Tests
-- [ ] Deploy
+- ⬜ Deploy
+
 
 ## 👨‍💻 Autor
 

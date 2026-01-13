@@ -41,7 +41,6 @@ npm run dev
 
 # La API se levantara en 
 http://localhost:PUERTO
-bash```
 
 ## 📡 Documentación de la API
 

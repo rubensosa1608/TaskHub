@@ -57,10 +57,10 @@ Desde Swagger puedes:
 
 ## ✅ Estado del proyecto
 
-- [x] Autenticación con JWT
-- [x] CRUD de tareas
-- [x] Validaciones con Zod
-- [x] Tests
+- ✅ Autenticación con JWT
+- ✅ CRUD de tareas
+- ✅ Validaciones con Zod
+- ✅ Tests
 - [ ] Deploy
 
 ## 👨‍💻 Autor

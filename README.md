@@ -37,6 +37,8 @@ npx prisma migrate dev
 # Levantar el servidor
 npm run dev
 
+```bash
+
 # La API se levantara en 
 http://localhost:PUERTO
 
